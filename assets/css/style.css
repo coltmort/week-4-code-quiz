@@ -1,0 +1,180 @@
+/* *{
+    background-color: rgba(255, 0, 0, 0.21);
+    outline: solid blue .1px;
+} */
+
+body{
+    margin: 0;
+    overflow: hidden;
+
+}
+
+nav{
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5vw;
+}
+
+nav button{
+    background-color: white;
+    text-decoration: none;
+    font-size: larger;
+    font-weight: bolder;
+    color: black;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+nav p{
+    font-size: large;
+    font-weight: bold;
+}
+
+main{
+    display: flex;
+}
+
+.highscores[data-open="true"]{
+    flex-basis: 2px;
+    margin-inline: 0;
+    min-width: 20vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    border-right: solid black 2px;
+}
+
+.highscores[data-open="false"]{
+    display: none;
+}
+
+.back-arrow{
+    width: 1.5em;
+    aspect-ratio: 1/1;
+    align-self: flex-end;
+    margin-right: 1em;
+}
+
+.highscores h2{
+    text-align: center;
+    margin-inline: auto;
+}
+
+.highscores .container{
+    display: flex;
+    flex-direction: column;
+}
+
+.highscores .container .flex-item{
+    display: flex;
+    flex-basis: 50%;
+    justify-content: space-evenly;
+    margin-block: 1vh;
+    font-size: larger;
+}
+
+section *{
+    max-width: 50vw;
+}
+
+/* start section */
+.start{
+    display: flex;
+}
+
+.start-button{
+    margin-top: 5vh;
+    margin-inline: auto;
+    font-size: larger;
+}
+
+.start{
+    margin-inline: auto;
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.start div{
+    font-weight: bolder;
+    font-size: 55px;
+    text-align: center;
+}
+
+/* quiz section */
+.quiz{
+    margin-inline: auto;
+    margin-top: 10vh;
+    display: none;
+    flex-direction: column;
+}
+
+.quiz div{
+    font-weight: bolder;
+    font-size: 55px;
+    text-align: center;
+}
+
+.quiz ul li{
+    list-style-type: none;
+}
+
+/* results section */
+.answers{
+    padding: 0;
+}
+
+.results{
+    margin-inline: auto;
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.initials-input{
+    max-width: 3em;
+    text-align: center;
+    margin-inline: auto;
+
+}
+
+.initials-save-btn{
+    font-size:large;
+    margin: 0;
+    display: inline;
+}
+
+.results div{
+    font-weight: bolder;
+    text-align: center;
+}
+
+button{
+    font-weight: bold;
+    background-color: rgb(111, 13, 185);
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    margin-left: 200px;
+    width: fit-content;
+}
+
+.results{
+    display: none;
+}
+
+.results div{
+    font-size: 30px;
+}
+
+.results .review{
+    display: none;
+}
+
+.results .restart-button{
+    margin-inline: auto;
+}

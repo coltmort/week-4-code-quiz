@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/Normalize/normalize.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Code Quiz</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <button class="nav-highscores">View Highscores</button>
+            <p>Time: <span class="seconds-text">20 Seconds</span></p>
+        </nav>
+    </header>
+    <main>
+        <aside class="highscores" data-open="true">
+            <img class="back-arrow" src="./assets/imgs/circle-arrow-left.svg" alt="back arrow">
+            <h2>Highscores</h2>
+            <section class="container">
+                <div class="position1 flex-item">
+                    <div class="initials">- - -</div>
+                    <div class="score">- -</div>
+                </div>
+                <div class="position2 flex-item">
+                    <div class="initials">- - -</div>
+                    <div class="score">- -</div>
+                </div>
+                <div class="position3 flex-item">
+                    <div class="initials">- - -</div>
+                    <div class="score">- -</div>
+                </div>
+                <div class="position4 flex-item">
+                    <div class="initials">- - -</div>
+                    <div class="score">- -</div>
+                </div>
+                <div class="position5 flex-item">
+                    <div class="initials">- - -</div>
+                    <div class="score">- -</div>
+                </div>
+                <div class="position6 flex-item">
+                    <div class="initials">- - -</div>
+                    <div class="score">- -</div>
+                </div>
+                <div class="position7 flex-item">
+                    <div class="initials">- - -</div>
+                    <div class="score">- -</div>
+                </div>
+                <div class="position8 flex-item">
+                    <div class="initials">- - -</div>
+                    <div class="score">- -</div>
+                </div>
+                <div class="position9 flex-item">
+                    <div class="initials">- - -</div>
+                    <div class="score">- -</div>
+                </div>
+                <div class="position10 flex-item">
+                    <div class="initials">- - -</div>
+                    <div class="score">- -</div>
+                </div>
+            </section>
+        </aside>
+        <section class="start content">
+            <div>Are you ready to Quiz?</div>
+            <button class="start-button">Start</button>
+        </section>
+        <section class="quiz content">
+            <div class="question">I am a question</div>
+            <ul class="answers">
+                <li> <button class="answer1" data-number="1"> Answer 1 </button></li>
+                <li> <button class="answer2" data-number="2"> Answer 2 </button></li>
+                <li> <button class="answer3" data-number="3"> Answer 3 </button></li>
+                <li> <button class="answer4" data-number="4"> Answer 4 </button></li>
+            </ul>
+        </section>
+        <section class="results content">
+            <div class="scoreContainer">
+                <div class="highscore" data-highscore="false">Congratulations! <br> You got a highscore!</div>
+                <div class="user-score">0</div>
+                <div>
+                    <input class="initials-input" type="text" maxlength="3" placeholder="_ _ _" spellcheck="false">
+                    <button class="initials-save-btn">Save</button>
+                </div>
+            </div>
+            <div class="review"></div>
+            <button class="scorecard-btn" data-visible="hidden">Show scorecard</button>
+        </section>
+    </main>
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>
