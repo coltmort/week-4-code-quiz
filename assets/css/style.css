@@ -110,11 +110,12 @@ section *{
     margin-top: 10vh;
     display: none;
     flex-direction: column;
+    min-width: 50vw;
 }
 
 .quiz div{
     font-weight: bolder;
-    font-size: 55px;
+    font-size: 45px;
     text-align: center;
 }
 
@@ -154,17 +155,29 @@ section *{
 
 button{
     font-weight: bold;
+    font-size: large;
     background-color: rgb(111, 13, 185);
     color: white;
     border-radius: 5px;
-    padding: 5px;
-    margin: 5px;
+    padding: .5em;
+    margin: .5em;
     margin-left: 200px;
     width: fit-content;
+    border-style: none;
+}
+
+button:active{
+    background-color: rgb(144, 21, 239);
 }
 
 .results{
     display: none;
+    gap: 10em;
+}
+
+.score-container{
+    display: flex;
+    flex-direction: column;
 }
 
 .results div{
@@ -177,4 +190,13 @@ button{
 
 .results .restart-button{
     margin-inline: auto;
+}
+
+.review-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.scorecard-btn{
+
 }

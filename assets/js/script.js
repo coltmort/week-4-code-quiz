@@ -19,7 +19,8 @@ const highScoresAside = document.querySelector('.highscores')
 const userScore = document.querySelector('.user-score')
 const saveScoreBtn = document.querySelector('.initials-save-btn')
 const initialsInput = document.querySelector('.initials-input')
-var secondsLeft = 20
+const scoreContainer = document.querySelector('.score-container')
+var secondsLeft = 200
 var userAnswers = '' 
 var correctAnswers = ''
 var questionNumber = 0
@@ -51,6 +52,11 @@ var questionsArray = [
         choices: ["A reference to the Repo Man", "a place that hosts an applications source code", "GitHub", "google"],
         answer: 2
       },
+      {
+        question: 'How would you select a button with a class of "activate" in css',
+        choices:['#activate', 'activate', '.activate', '&activate'],
+        answer: 3
+      }
 ]
 
 
@@ -87,18 +93,6 @@ function getHighScores(){
     }
 }
 getHighScores()
-
-function writeHighScores(){
-highScores.forEach((c, i) => {
-    let position = i + 1;
-    let positionSelector = '.position' + position
-    let el = document.querySelector(positionSelector);
-    let initialsEl = el.children[0];
-    let scoreEl = el.children[1];
-    initialsEl.textContent = c.initials;
-    scoreEl.textContent = c.score;
-  })};
-
 
 // event listener moves to next question on click in .answers
 answers.addEventListener('click', function(event){
@@ -162,7 +156,8 @@ function writeQuestion(){
 
 function writeResults(){
     quizSection.setAttribute('style', 'display:none')
-    resultsSection.setAttribute('style', 'display:flex; flex-direction:column')
+    resultsSection.setAttribute('style', 'display:flex; flex-direction:row')
+    
     
     for (let i = 0; i < questionsArray.length; i++) {
         var newDiv = document.createElement('div');
@@ -176,6 +171,7 @@ function writeResults(){
         }
         reviewSection.appendChild(newDiv)
     }
+    
     // score section, calculation
     if (secondsLeft !== 0){
         score = score * secondsLeft
@@ -184,11 +180,11 @@ function writeResults(){
     }
 
     userScore.innerText = score
-
+    // creates restart button
     restartButton = document.createElement('button')
     restartButton.textContent = 'Restart'
     restartButton.classList.add('restart-button')
-    resultsSection.appendChild(restartButton)
+    scoreContainer.appendChild(restartButton)
     // removes previous round results onClick of restart button
     restartButton.addEventListener('click', function(){
         userAnswers = ''
@@ -198,27 +194,33 @@ function writeResults(){
         while (reviewSection.firstChild) {
         reviewSection.removeChild(reviewSection.firstChild);
         }
-        resultsSection.removeChild(restartButton)
+        scoreContainer.removeChild(restartButton)
         // resets scorecard
         reviewSection.setAttribute('style', 'display:none')
         scorecardButton.textContent = 'Show scorecard'
         scorecardButton.dataset.visible = 'hidden'
         score = 0
         saveScoreBtn.setAttribute('style', 'display:inline')
+        // restarts quiz section
         startTimer()
         resultsSection.setAttribute('style', 'display:none')
         reviewSection.setAttribute('style', 'display:none')
         quizSection.setAttribute('style', 'display:flex')
         writeQuestion()
-        console.log(userAnswers)
     })
     clearInterval(timerInterval)
 }
 
 saveScoreBtn.addEventListener('click', function(){
     setScores()
-    saveScoreBtn.setAttribute('style', 'display:none')
-})
+    
+},{once: true})
+initialsInput.addEventListener('keypress', function(event){
+    if(event.which === 13){
+        setScores()
+    }
+   
+},{once: true})
 
 
 // get previous highscores, add most recent score to array, sort by score
@@ -235,7 +237,26 @@ function setScores(){
     }
     localStorage.setItem('highscores', JSON.stringify(highScores))
     writeHighScores()
+    saveScoreBtn.setAttribute('style', 'display:none')
 }
 
-
+function writeHighScores(){
+    highScores.forEach((c, i) => {
+        let position = i + 1;
+        let positionSelector = '.position' + position
+        let el = document.querySelector(positionSelector);
+        let initialsEl = el.children[0];
+        let scoreEl = el.children[1];
+        if(c.initials){
+            initialsEl.textContent = c.initials;
+        } else {
+            initialsEl.textContent = '- - -'
+        }
+        if (c.score){
+        scoreEl.textContent = c.score;
+        } else {
+            scoreEl.textContent = '- -'
+        }
+      })};
+      writeHighScores()
 
