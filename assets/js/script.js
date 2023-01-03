@@ -20,7 +20,9 @@ const userScore = document.querySelector('.user-score')
 const saveScoreBtn = document.querySelector('.initials-save-btn')
 const initialsInput = document.querySelector('.initials-input')
 const scoreContainer = document.querySelector('.score-container')
-var secondsLeft = 200
+const highscoreText = document.querySelector('.highscore')
+const inputContainer = document.querySelector('.input-container')
+var secondsLeft = 20
 var userAnswers = '' 
 var correctAnswers = ''
 var questionNumber = 0
@@ -35,31 +37,29 @@ var questionsArray = [
         question: "What does HTML stand for?",
         choices: ["Hypertext Markup Language", "Cascading Stylesheets", "London", "Birmingham"],
         answer: 1
-      },
-      {
+    },
+    {
         question: "Which tag is used to add an image to HTML?",
         choices: ["<image>", "<img>", "<picture>", "<a>"],
         answer: 2
-      },
+    },
       
-      {
+    {
         question: "What style of labeling should you use in javaScript?",
         choices: ["H-Case", "PascalCase", "lowercase", "camelCase"],
         answer: 4
-      },
-      {
+    },
+    {
         question: "What is a repo?",
         choices: ["A reference to the Repo Man", "a place that hosts an applications source code", "GitHub", "google"],
         answer: 2
-      },
-      {
+    },
+    {
         question: 'How would you select a button with a class of "activate" in css',
         choices:['#activate', 'activate', '.activate', '&activate'],
         answer: 3
-      }
+    }
 ]
-
-
 
 // Hides start screen and shows quiz 
 startButton.addEventListener('click', function(){
@@ -70,7 +70,7 @@ startButton.addEventListener('click', function(){
 
 scorecardButton.addEventListener('click', function(){
     if (scorecardButton.dataset.visible === 'hidden'){
-        reviewSection.setAttribute('style', 'display:block')
+        reviewSection.setAttribute('style', 'display:flex')
         scorecardButton.textContent = 'Hide scorecard'
         scorecardButton.dataset.visible = 'visible'
     } else {
@@ -110,7 +110,7 @@ answers.addEventListener('click', function(event){
             writeResults()
         }
     secondsText.textContent = secondsLeft + ' Seconds'
-}
+    }
 })
 
 function openHighscores(){
@@ -158,7 +158,6 @@ function writeResults(){
     quizSection.setAttribute('style', 'display:none')
     resultsSection.setAttribute('style', 'display:flex; flex-direction:row')
     
-    
     for (let i = 0; i < questionsArray.length; i++) {
         var newDiv = document.createElement('div');
         if (userAnswers.charAt(i) === correctAnswers.charAt(i)){  
@@ -180,6 +179,7 @@ function writeResults(){
     }
 
     userScore.innerText = score
+    isHighScore()
     // creates restart button
     restartButton = document.createElement('button')
     restartButton.textContent = 'Restart'
@@ -209,19 +209,18 @@ function writeResults(){
         writeQuestion()
     })
     clearInterval(timerInterval)
-}
+
 
 saveScoreBtn.addEventListener('click', function(){
-    setScores()
-    
-},{once: true})
-initialsInput.addEventListener('keypress', function(event){
-    if(event.which === 13){
-        setScores()
-    }
-   
+    setScores()   
 },{once: true})
 
+initialsInput.addEventListener('keypress', function(event){
+    if(event.code === 13){
+        setScores()
+    }
+},{once: true})
+}
 
 // get previous highscores, add most recent score to array, sort by score
 function setScores(){
@@ -240,10 +239,30 @@ function setScores(){
     saveScoreBtn.setAttribute('style', 'display:none')
 }
 
+// get high scores
+// get playerscore
+// compare scores
+// is playerscore within highscores range?
+// write congrats or try again
+
+function isHighScore(){
+    let j = highScores.length
+    let min = highScores[j-1].score
+    console.log(min, score)
+    if(min < score || !highScores[min]){
+        highscoreText.innerHTML = 'Congratulations! <br> You got a highscore!'
+    } else {
+        highscoreText.innerHTML = 'Good Job! <br> You scored:'
+        inputContainer.setAttribute('style', 'display: none')
+    }
+
+}
+
+
 function writeHighScores(){
     highScores.forEach((c, i) => {
         let position = i + 1;
-        let positionSelector = '.position' + position
+        let positionSelector = '.position' + position;
         let el = document.querySelector(positionSelector);
         let initialsEl = el.children[0];
         let scoreEl = el.children[1];
@@ -256,7 +275,7 @@ function writeHighScores(){
         scoreEl.textContent = c.score;
         } else {
             scoreEl.textContent = '- -'
-        }
-      })};
-      writeHighScores()
+        }})
+    };
+writeHighScores()
 
