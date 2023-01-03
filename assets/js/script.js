@@ -1,3 +1,4 @@
+// sets all global variables
 const answer1 = document.querySelector('.answer1')
 const answer2 = document.querySelector('.answer2')
 const answer3 = document.querySelector('.answer3')
@@ -61,6 +62,8 @@ var questionsArray = [
     }
 ]
 
+// Event listener section,
+
 // Hides start screen and shows quiz 
 startButton.addEventListener('click', function(){
     startTimer()
@@ -80,27 +83,12 @@ scorecardButton.addEventListener('click', function(){
     }
 })
 
-writeQuestion()
-
-// sets correct answer string for comparision to userAnswer
-for (let i = 0; i < questionsArray.length; i++) {
-    correctAnswers += questionsArray[i].answer
-}
-
-function getHighScores(){
-    if(localStorage.getItem('highscores')){
-        highScores = JSON.parse(localStorage.getItem('highscores'))
-    }
-}
-getHighScores()
-
 // event listener moves to next question on click in .answers
 answers.addEventListener('click', function(event){
     if (event.target.matches('button')){
         userAnswers += event.target.dataset.number
         if(userAnswers.charAt(questionNumber)!== correctAnswers.charAt(questionNumber)){
             secondsLeft = secondsLeft - 10
-            console.log('wrong Time left ' + secondsLeft)
         }
 
         if(questionNumber < questionsArray.length - 1) {
@@ -113,6 +101,32 @@ answers.addEventListener('click', function(event){
     }
 })
 
+highScoresButton.addEventListener('click', function(){
+    openHighscores()
+})
+
+backArrow.addEventListener('click', function(){
+    closeHighscores()
+})
+
+// Calls functions needed to initialize quiz
+writeQuestion()
+getHighScores()
+writeHighScores()
+
+// sets correct answer string for comparision to userAnswer
+for (let i = 0; i < questionsArray.length; i++) {
+    correctAnswers += questionsArray[i].answer
+}
+
+
+// Function Section
+function getHighScores(){
+    if(localStorage.getItem('highscores')){
+        highScores = JSON.parse(localStorage.getItem('highscores'))
+    }
+}
+
 function openHighscores(){
     if(highScoresAside.dataset.open === 'false')
     highScoresAside.dataset.open = "true"
@@ -122,14 +136,6 @@ function closeHighscores(){
     if(highScoresAside.dataset.open === 'true')
     highScoresAside.dataset.open = "false"
 }
-
-highScoresButton.addEventListener('click', function(){
-    openHighscores()
-})
-
-backArrow.addEventListener('click', function(){
-    closeHighscores()
-})
 
 function startTimer(){
     timerInterval = setInterval(function(){
@@ -157,9 +163,9 @@ function writeQuestion(){
 function writeResults(){
     quizSection.setAttribute('style', 'display:none')
     resultsSection.setAttribute('style', 'display:flex; flex-direction:row')
-    
+    // Creates divs for each of the questions in the review section
     for (let i = 0; i < questionsArray.length; i++) {
-        var newDiv = document.createElement('div');
+        var newDiv = document.createElement('div')
         if (userAnswers.charAt(i) === correctAnswers.charAt(i)){  
             newDiv.textContent = 'Question ' + (i + 1) + ' is correct'
             score++
@@ -192,7 +198,7 @@ function writeResults(){
         secondsLeft = 20
         // removes appended children
         while (reviewSection.firstChild) {
-        reviewSection.removeChild(reviewSection.firstChild);
+        reviewSection.removeChild(reviewSection.firstChild)
         }
         scoreContainer.removeChild(restartButton)
         // resets scorecard
@@ -200,7 +206,9 @@ function writeResults(){
         scorecardButton.textContent = 'Show scorecard'
         scorecardButton.dataset.visible = 'hidden'
         score = 0
+        inputContainer.setAttribute('style', 'display: inline')
         saveScoreBtn.setAttribute('style', 'display:inline')
+        initialsInput.disabled = false
         // restarts quiz section
         startTimer()
         resultsSection.setAttribute('style', 'display:none')
@@ -210,26 +218,29 @@ function writeResults(){
     })
     clearInterval(timerInterval)
 
+    // !!Don't take these event listeners out of write results function!!
+    saveScoreBtn.addEventListener('click', function(){
+        setScores() 
+         
+    },{once:true})
 
-saveScoreBtn.addEventListener('click', function(){
-    setScores()   
-},{once: true})
-
-initialsInput.addEventListener('keypress', function(event){
-    if(event.code === 13){
-        setScores()
-    }
-},{once: true})
+    initialsInput.addEventListener('keypress', enterKey)
 }
 
-// get previous highscores, add most recent score to array, sort by score
+function enterKey(event){
+    if(event.code === 'Enter'){
+        setScores()
+    }
+}
+
+// Get previous highscores, add most recent score to array, sort by score
 function setScores(){
     userInitials = initialsInput.value.toUpperCase()
     if(localStorage.getItem('highscores')){
         highScores = JSON.parse(localStorage.getItem('highscores'))
     }
     highScores.unshift({initials: userInitials, score: score})
-    highScores.sort((a, b) => b['score'] - a['score']);
+    highScores.sort((a, b) => b['score'] - a['score'])
     // if array.length > 10 remove last item in array
     if(highScores.length > 10){
         highScores.pop()
@@ -237,45 +248,37 @@ function setScores(){
     localStorage.setItem('highscores', JSON.stringify(highScores))
     writeHighScores()
     saveScoreBtn.setAttribute('style', 'display:none')
+    initialsInput.disabled = true 
+    initialsInput.removeEventListener('keypress', enterKey)
 }
-
-// get high scores
-// get playerscore
-// compare scores
-// is playerscore within highscores range?
-// write congrats or try again
 
 function isHighScore(){
     let j = highScores.length
     let min = highScores[j-1].score
-    console.log(min, score)
-    if(min < score || !highScores[min]){
+    if(min < score){
         highscoreText.innerHTML = 'Congratulations! <br> You got a highscore!'
     } else {
         highscoreText.innerHTML = 'Good Job! <br> You scored:'
         inputContainer.setAttribute('style', 'display: none')
     }
-
 }
-
 
 function writeHighScores(){
     highScores.forEach((c, i) => {
-        let position = i + 1;
-        let positionSelector = '.position' + position;
-        let el = document.querySelector(positionSelector);
-        let initialsEl = el.children[0];
-        let scoreEl = el.children[1];
+        let position = i + 1
+        let positionSelector = '.position' + position
+        let el = document.querySelector(positionSelector)
+        let initialsEl = el.children[0]
+        let scoreEl = el.children[1]
         if(c.initials){
-            initialsEl.textContent = c.initials;
+            initialsEl.textContent = c.initials
         } else {
             initialsEl.textContent = '- - -'
         }
         if (c.score){
-        scoreEl.textContent = c.score;
+        scoreEl.textContent = c.score
         } else {
             scoreEl.textContent = '- -'
-        }})
-    };
-writeHighScores()
-
+        }}
+    )
+}
