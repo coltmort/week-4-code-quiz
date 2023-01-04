@@ -36,7 +36,7 @@ var userInitials = ''
 var questionsArray = [
     {
         question: "What does HTML stand for?",
-        choices: ["Hypertext Markup Language", "Cascading Stylesheets", "London", "Birmingham"],
+        choices: ["Hypertext Markup Language", "Cascading Stylesheets", "Javascript", "Ruby on Rails"],
         answer: 1
     },
     {
@@ -59,6 +59,16 @@ var questionsArray = [
         question: 'How would you select a button with a class of "activate" in css',
         choices:['#activate', 'activate', '.activate', '&activate'],
         answer: 3
+    },
+    {
+        question: 'What is the git command to make a directory into a repo?',
+        choices:['git commit', 'git add', 'git pull', 'git init'],
+        answer: 4
+    },
+    {
+        question: 'What is the order of parts of the box model from inside out',
+        choices:['box, border, margin, outline', 'content, padding, border, margin', 'margin, border, padding, content', 'box, content, border, padding'],
+        answer: 2
     }
 ]
 
@@ -255,7 +265,7 @@ function setScores(){
 function isHighScore(){
     let j = highScores.length
     let min = highScores[j-1].score
-    if(min < score){
+    if(min < score || typeof highScores[j-1].score === 'undefined'){
         highscoreText.innerHTML = 'Congratulations! <br> You got a highscore!'
     } else {
         highscoreText.innerHTML = 'Good Job! <br> You scored:'
